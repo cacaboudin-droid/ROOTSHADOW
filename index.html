@@ -1,0 +1,217 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ROOTSHADOW - Skillz Interface</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700&display=swap');
+
+        :root {
+            --bg-dark: #050011;
+            --snap-gold: #FFD700;
+            --snap-black: #2DD6FF; /* Un peu bleu/cyan pour le contrast hack */
+            --primary-violet: #8A2BE2;
+            --secondary-violet: #D0A6FF;
+            --white: #E0E0FF;
+            --neon-glow: 0 0 10px var(--primary-violet);
+        }
+
+        body {
+            margin: 0;
+            background-color: var(--bg-dark);
+            background-image: 
+                radial-gradient(circle at 50% 50%, rgba(138, 43, 226, 0.2) 0%, transparent 70%),
+                linear-gradient(0deg, transparent 95%, rgba(138, 43, 226, 0.3) 100%);
+            color: var(--white);
+            font-family: 'Orbitron', sans-serif;
+            height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        /* Conteneur principal */
+        .container {
+            width: 80%;
+            height: 85%;
+            border: 1px solid var(--primary-violet);
+            padding: 40px;
+            position: relative;
+            background: rgba(5, 0, 17, 0.6);
+            box-shadow: var(--neon-glow);
+            display: flex;
+        }
+
+        /* Les onglets sur les côtés */
+        .side-tabs {
+            display: flex;
+            flex-direction: column;
+            justify-content: space-around;
+            width: 80px;
+            padding: 20px 0;
+            position: absolute;
+            background: rgba(138, 43, 226, 0.1);
+            transform: skewX(-20deg); /* Effet géométrique */
+        }
+
+        .side-tabs label {
+            color: var(--primary-violet);
+            cursor: pointer;
+            font-size: 1.2rem;
+            margin: 20px 0;
+            transition: 0.3s;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+        }
+
+        .side-tabs span {
+            position: relative;
+            z-index: 2;
+        }
+
+        /* Curseur de l'onglet actif */
+        .side-tabs label.active::after {
+            content: '';
+            position: absolute;
+            right: -15px;
+            top: 50%;
+            width: 4px;
+            height: 30px;
+            background: var(--white);
+            transform: translateY(-50%) skewX(20deg);
+            box-shadow: 0 0 10px var(--white);
+        }
+
+        label.active {
+            color: var(--white);
+            text-shadow: 0 0 8px var(--white);
+        }
+
+        /* Le contenu au milieu */
+        .center-content {
+            margin-left: 90px; /* Pour réduire le tirage des côtés */
+            width: 100%;
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            z-index: 3;
+        }
+
+        /* La grande barre de recherche */
+        .input-group {
+            position: relative;
+            width: 400px;
+            height: 50px;
+        }
+
+        input {
+            width: 100%;
+            height: 100%;
+            background: transparent;
+            border: none;
+            border-bottom: 2px solid var(--primary-violet);
+            color: var(--white);
+            font-family: 'Orbitron', sans-serif;
+            font-size: 1.5rem;
+            outline: none;
+            text-align: center;
+            font-weight: bold;
+            text-transform: uppercase;
+            letter-spacing: 3px;
+        }
+
+        input::placeholder {
+            color: rgba(138, 43, 226, 0.5);
+            font-size: 0.9rem;
+            letter-spacing: 1px;
+        }
+
+        input:focus {
+            border-bottom-color: var(--white);
+        }
+
+        /* Titre au-dessus */
+        h2 {
+            margin-top: 0;
+            margin-bottom: 60px;
+            font-size: 1.5rem;
+            text-transform: uppercase;
+            letter-spacing: 5px;
+            color: var(--white);
+            position: relative;
+        }
+        
+        /* Représentation de SNAP */
+        .snap-logo-square {
+            width: 80px;
+            height: 80px;
+            border: 2px solid var(--primary-violet);
+            border-radius: 50%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            margin-bottom: 40px;
+            box-shadow: 0 0 15px var(--primary-violet);
+        }
+
+        /* Résultat de la cible (ID) */
+        #result-display {
+            margin-top: 60px;
+            height: 30px;
+            color: var(--snap-gold);
+            font-size: 1.2rem;
+            text-shadow: 0 0 5px var(--snap-gold);
+            font-family: 'Courier New', monospace; /* Pour les codes */
+            opacity: 0;
+            transition: opacity 0.5s;
+        }
+
+        /* Bouton Action */
+        button {
+            margin-top: 20px;
+            background: transparent;
+            border: 1px solid var(--primary-violet);
+            color: var(--primary-violet);
+            padding: 10px 30px;
+            font-family: 'Orbitron';
+            cursor: pointer;
+            transition: 0.3s;
+            text-transform: uppercase;
+            clip-path: polygon(10% 0, 100% 0, 100% 70%, 90% 100%, 0 100%, 0 30%);
+        }
+
+        button:hover {
+            background: var(--primary-violet);
+            color: var(--white);
+            box-shadow: var(--neon-glow);
+        }
+
+        /* Animation de début */
+        .fade-in {
+            animation: fadeIn 1s ease-in-out;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <!-- Section ONGLET GAUCHE (SNAP) -->
+        <div class="side-tabs">
+            <span>USER</span>
+            <label class="active" for="snap">SNAP+</label>
+            <label for="rootshadow">ROOT</label>
+        </div>
+
+        <!-- SECTION CONTENU CENTRAL -->
+        <div class="center-content">
+            
+           
